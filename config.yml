@@ -1,0 +1,8 @@
+
+project:
+  name: "test"
+  data_directory: "data"
+
+datasets:
+  mobygames:
+    api_key: "***REMOVED***"
