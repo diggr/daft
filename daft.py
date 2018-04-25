@@ -42,6 +42,8 @@ def daft_tool(source, fetch, update, init):
         giantbomb = GiantbombFetcher(data_dir=config["data_dir"], api_key=datasets["giantbomb"]["api_key"])
         if fetch:
             giantbomb.fetch()
+        if update:
+            giantbomb.update()
 
     if source == "punk":
         print("5555")

@@ -38,8 +38,50 @@ class GiantbombFetcher(object):
         resp = requests.get(url, headers=HEADERS)
         return json.loads(resp.text)
 
+
+    def _read_from_archive(self, zf, id_):
+        """
+        Checks if game :id_: is in archive; if not returns None
+        """
+        try:
+            with zf.open("{}.json".format(id_)) as f:
+                data = json.load(f)
+            return data
+        except KeyError:
+            return None
+
     def update(self):
-        raise NotImplementedError
+        """
+        WIP - not clear if it's an endeavour worth pursuing
+        """
+        if not os.path.exists(self.filepath):
+            print("Archive file  does not exits, fetch full dataset")
+            self.fetch()
+            return 
+
+        with zipfile.ZipFile(self.filepath, "a", zipfile.ZIP_DEFLATED) as zf:            
+
+            offset = 0          
+            while True:
+
+                result = self._api_call(URL.format(api_key=self.api_key, title="", offset=offset))
+                
+                games = result["results"]
+                for game in games:
+                    id_ = game["guid"]
+                    last_update = game["date_last_updated"] 
+                    data = self._read_from_archive(zf, id_)
+
+                    if data:
+                        if last_update > data["date_last_updated"]:
+                            print("newer")
+                        else:
+                            print("older or equal")
+
+                    break
+                break
+
+
 
     def fetch(self):
         """
@@ -60,10 +102,10 @@ class GiantbombFetcher(object):
                 result_number = len(games)
                 print(offset)
 
-                if result_number == 0:
+                if result_number == 0 or offset > 5000:
                     break
                 
         prov = Provenance(self.filepath)
         prov.add(agent="daft", activity="fetch_giantbomb", description="fetches all game datasets from giantbomb api")
-        prov.add_primary_source("mobygames")
+        prov.add_primary_source("giantbomb")
         prov.save()
