@@ -6,3 +6,5 @@ project:
 datasets:
   mobygames:
     api_key: "***REMOVED***"
+  giantbomb:
+    api_key: "***REMOVED***"

@@ -9,9 +9,11 @@ project:
 datasets:
   mobygames:
     api_key: ""
+  giantbomb:
+    api_key: ""
 """
 
-def init():
+def initialize():
     """
     Initializes daft project.
     """
@@ -39,6 +41,7 @@ def load_config():
     
     datasets = {}
     datasets["mobygames"] = { "api_key": config_yml["datasets"]["mobygames"]["api_key"] }
+    datasets["giantbomb"] = { "api_key": config_yml["datasets"]["giantbomb"]["api_key"] }
 
     return config, datasets
 

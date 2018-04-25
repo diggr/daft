@@ -1,22 +1,22 @@
-import time
-import zipfile
-import requests
 import json
+import requests
 import os
+import zipfile
 from pit.prov import Provenance
+
 from .utils import timeout
 
-# Mobygames API strings
-SEARCH = "https://api.mobygames.com/v1/games?format=full&api_key={api_key}&title={title}&offset={offset}"
 
-#Max number of returned games = 5 (when format = full)
-OFFSET_STEP = 5
+URL = "https://www.giantbomb.com/api/games/?api_key={api_key}&format=json&offset={offset}"
 
-#required timeout for mobygames api: 1 second
+OFFSET_STEP = 100
 TIMEOUT = 1
 
-class MobygamesFetcher:
-    """wrapper class for mobygames api.
+HEADERS = {'User-agent': 'daft fetcher'}
+
+class GiantbombFetcher(object):
+    """
+    wrapper class for giantbomb api.
 
     Attributes:
         api_key: Api key for mobygames api
@@ -27,7 +27,7 @@ class MobygamesFetcher:
     def __init__(self, api_key, data_dir):
         """setting up api key and proxies"""
         self.data_dir = data_dir
-        self.filepath = os.path.join(data_dir, "mobygames.zip")
+        self.filepath = os.path.join(data_dir, "giantbomb.zip")
         self.api_key = api_key
 
     @timeout(TIMEOUT)
@@ -35,8 +35,11 @@ class MobygamesFetcher:
         """
         Calls Mobygames API, returns json as dict
         """
-        resp = requests.get(url)
+        resp = requests.get(url, headers=HEADERS)
         return json.loads(resp.text)
+
+    def update(self):
+        raise NotImplementedError
 
     def fetch(self):
         """
@@ -46,12 +49,12 @@ class MobygamesFetcher:
 
             offset = 0          
             while True:
-            
-                result = self._api_call(SEARCH.format(api_key=self.api_key, title="", offset=offset))
-                games = result["games"]
+                result = self._api_call(URL.format(api_key=self.api_key, title="", offset=offset))
+               
+                games = result["results"]
                 for game in games:
                     game_str = json.dumps(game, indent=4)
-                    zf.writestr("{}.json".format(game["game_id"]), game_str)
+                    zf.writestr("{}.json".format(game["guid"]), game_str)
 
                 offset += OFFSET_STEP
                 result_number = len(games)
@@ -61,7 +64,6 @@ class MobygamesFetcher:
                     break
                 
         prov = Provenance(self.filepath)
-        prov.add(agent="daft", activity="fetch_mobygames", description="fetches all game datasets from mobygames api")
+        prov.add(agent="daft", activity="fetch_giantbomb", description="fetches all game datasets from giantbomb api")
         prov.add_primary_source("mobygames")
         prov.save()
-

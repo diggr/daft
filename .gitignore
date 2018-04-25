@@ -1,4 +1,5 @@
 .vscode
-mobygames/__pycache__
+fetcher/__pycache__
 __pycache__
 data
+daft.egg-info

@@ -3,7 +3,7 @@ import time
 def timeout(timeout):
     """
     Timeout Decorator
-    :timeout: seconds to wait after funtion call
+    :timeout: seconds to wait after function call
     """
     def timeout_decorator(function):
         def timeout_wrapper(*args, **kwargs):
