@@ -102,7 +102,7 @@ class GiantbombFetcher(object):
                 result_number = len(games)
                 print(offset)
 
-                if result_number == 0 or offset > 5000:
+                if result_number == 0:
                     break
                 
         prov = Provenance(self.filepath)
