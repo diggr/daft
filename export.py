@@ -7,8 +7,11 @@ from pit.prov import Provenance
 from utils.platform_mapper import PlatformMapper
 
 EXPORT_DIR = "/home/pmuehleder/data/game_metadata/daft_export"
-
 PM_DIR = "/home/pmuehleder/data/game_metadata/platform_mapping"
+
+
+EXCLUDE_PLATFORMS = [ "PC", "Apple Mac OS", "Linux", "iPhone", "Online", "iPad", "Android" ]
+
 
 def main():
     
@@ -17,9 +20,10 @@ def main():
 
     input_filepath = "data/mobygames.zip"
 
-    pm = PlatformMapper(os.path.join(PM_DIR, "mobygames.csv"), sep=";")
+    mapping_filepath = os.path.join(PM_DIR, "mobygames.csv")
+    pm = PlatformMapper(mapping_filepath, sep=";")
 
-    mobygames = read_archive(input_filepath)
+    mobygames = read_archive(input_filepath).values()
     export = {}
     for game in tqdm(mobygames):
         try:
@@ -37,14 +41,14 @@ def main():
         export[game["game_id"]] = {
             "giantbomb_id": game["game_id"],
             "name": [ game["title"] ] + aliases,
-            "platforms": [x for x in platforms if x ]
+            "platforms": [x for x in platforms if x and x not in EXCLUDE_PLATFORMS ]
         }
     export_filename = os.path.join(EXPORT_DIR, "mobygames.json")
     json.dump(export, open(export_filename, "w"), indent=4)
 
     prov = Provenance(export_filename)
     prov.add(agent="daft", activity="linking_export", description="standardized mobygames export for dataset linking")
-    prov.add_sources([ input_filepath ])
+    prov.add_sources([ input_filepath, mapping_filepath ])
     prov.save()
 
 
@@ -53,9 +57,10 @@ def main():
 
     input_filepath = "data/giantbomb.zip"
 
-    pm = PlatformMapper(os.path.join(PM_DIR, "giantbomb.csv"))
+    mapping_filepath = os.path.join(PM_DIR, "giantbomb.csv")
+    pm = PlatformMapper(mapping_filepath)
 
-    giantbomb = read_archive(input_filepath)
+    giantbomb = read_archive(input_filepath).values()
     export = {}
     for game in tqdm(giantbomb):
         try:
@@ -73,14 +78,14 @@ def main():
         export[game["guid"]] = {
             "giantbomb_id": game["guid"],
             "name": [ game["name"] ] + aliases,
-            "platforms": [x for x in platforms if x ]
+            "platforms": [x for x in platforms if x and x not in EXCLUDE_PLATFORMS]
         }
     export_filename = os.path.join(EXPORT_DIR, "giantbomb.json")
     json.dump(export, open(export_filename, "w"), indent=4)
 
     prov = Provenance(export_filename)
     prov.add(agent="daft", activity="linking_export", description="standardized giantbomb export for dataset linking")
-    prov.add_sources([ input_filepath ])
+    prov.add_sources([ input_filepath, mapping_filepath ])
     prov.save()
 
     print(len(giantbomb))
@@ -119,25 +124,51 @@ def main():
                 export[wkp]["label_de"].add(game["label_de"])
             export[wkp]["platforms"].add(game["platform_label"])
     
-    pm = PlatformMapper(os.path.join(PM_DIR, "wikidata.csv"))
+    mapping_filepath = os.path.join(PM_DIR, "wikidata.csv")
+    pm = PlatformMapper(mapping_filepath)
     for wkp, game in export.items():
         game["label_en"] = list(game["label_en"])
         game["label_ja"] = list(game["label_ja"])
         game["label_de"] = list(game["label_de"])
         platforms = [ pm.std(x) for x in game["platforms"] ]
-        game["platforms"] = [ x for x in platforms if x ]
+        game["platforms"] = [ x for x in platforms if x and x not in EXCLUDE_PLATFORMS]
 
     export_filename = os.path.join(EXPORT_DIR, "wikidata.json")
     json.dump(export, open(export_filename, "w"), indent=4)    
 
     prov = Provenance(export_filename)
     prov.add(agent="daft", activity="linking_export", description="standardized wikidata export for dataset linking")
-    prov.add_sources([ input_filepath ])
+    prov.add_sources([ input_filepath, mapping_filepath ])
     prov.save()
+
+
     
+    #export mediaart db
+    input_filepath = "data/ma_master_u8.csv"
+    mediaart = json.loads(pd.read_csv(input_filepath, sep="\t").to_json(orient="records"))
+
+    mapping_filepath = os.path.join(PM_DIR, "mediaartdb.csv")
+    pm = PlatformMapper(mapping_filepath, sep=";")
+
+    export = {}
+    for game in mediaart:
+        name = list(set([ game["ゲームタイトル"], game["英語表記"], game["JM（ローマ字）"] ]))
+        platforms = [ pm.std(game["プラットフォーム"])]
+        export[game["正式ID"]] = {
+            "name": name,
+            "platforms": platforms
+        }
 
 
+    export_filename = os.path.join(EXPORT_DIR, "mediaartdb.json")
+    json.dump(export, open(export_filename, "w"), indent=4)    
 
+
+    prov = Provenance(export_filename)
+    prov.add(agent="daft", activity="linking_export", description="standardized mediaart database export for dataset linking")
+    prov.add_sources([ input_filepath, mapping_filepath ])
+    prov.save()
+        
 
 if __name__ == "__main__":
     main()
