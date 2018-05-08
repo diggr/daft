@@ -1,16 +1,17 @@
 import zipfile
 import json
 
-def read_archive(filepath):
+def read_archive(zipfilename):
     """
-    Reads archive zipfile and returns contents as list of dicts
+    Reads archive zipfile and returns contents as list of dicts.
     """
-    filepath = filepath
-    
-    games = []
-    with zipfile.ZipFile(filepath) as zf:
+    zipfilename = zipfilename
+    object_list = []
+
+    with zipfile.ZipFile(zipfilename) as zf:
         for filename in zf.namelist():
             with zf.open(filename) as f:
-                games.append(json.load(f))
-    return games
-            
+                data = f.read().decode("utf-8")
+                object_list.append(data)
+    return object_list
+
