@@ -7,10 +7,11 @@ def read_archive(filepath):
     """
     filepath = filepath
     
-    games = []
+    games = {}
     with zipfile.ZipFile(filepath) as zf:
         for filename in zf.namelist():
             with zf.open(filename) as f:
-                games.append(json.load(f))
+                data = f.read().decode("utf-8")
+                games[filename.replace(".json", "").strip()] = json.loads(data)
     return games
             
