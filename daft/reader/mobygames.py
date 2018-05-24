@@ -25,7 +25,12 @@ class MobygamesData(object):
             for filename in zf.namelist():
                 with zf.open(filename) as f:
                     data = f.read().decode("utf-8")
-                    yield json.loads(data)
+                    dataset = {
+                        "id": filename.replace(".json", "").strip(),
+                        "raw": json.loads(data)
+                    }
+
+                    yield dataset
 
     def source_file(self):
         return self._filepath

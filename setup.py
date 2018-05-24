@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name="daft",
     version="0.1",
-    py_modules=["fetcher"],
+    py_modules=["daft"],
     install_requires=[
         "Click", 
         "requests", 

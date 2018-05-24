@@ -4,7 +4,7 @@ import os
 import json
 from tqdm import tqdm
 from pit.prov import Provenance
-from utils.platform_mapper import PlatformMapper
+from daft.utils.platform_mapper import PlatformMapper
 
 EXPORT_DIR = "/home/pmuehleder/data/game_metadata/daft_export"
 PM_DIR = "/home/pmuehleder/data/game_metadata/platform_mapping"

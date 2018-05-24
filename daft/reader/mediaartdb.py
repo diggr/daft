@@ -20,8 +20,12 @@ class MediaartData(object):
         """
         Iterator over mobygames dataset
         """
-        for entry in self._dict.values():
-            yield entry
+        for id_, entry in self._dict.items():
+            dataset = {
+                "id": id_, 
+                "raw": entry
+            }
+            yield dataset
 
     def source_file(self):
         return self._filepath
