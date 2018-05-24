@@ -1,4 +1,4 @@
-from reader.archive import read_archive
+from daft.reader.archive import read_archive
 import pandas as pd
 import os
 import json
