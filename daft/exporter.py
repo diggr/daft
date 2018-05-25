@@ -11,14 +11,15 @@ def export_datasets():
     config, datasets = load_config()
 
     for dataset_name, fields in config["export"].items():
-        export_dataset = []
+        export_dataset = {}
         
         print("exporting dataset <{}> ...".format(dataset_name))
         dataset = get_dataset(".", dataset_name)
 
         for entry in dataset:
             row = { field: entry[field] for field in fields }
-            export_dataset.append(row)
+            row["id"] = entry["id"]
+            export_dataset[entry["id"]] = row
 
         out_file = os.path.join(config["export_dir"], "{}.json".format(dataset_name))
         json.dump(export_dataset, open(out_file, "w"), indent=4)
