@@ -1,6 +1,8 @@
 import yaml
 import os
 
+PROV_AGENT = "daft_0.1"
+
 CONFIG_TEMPLATE = """
 project:
   name: ""
@@ -35,13 +37,19 @@ def load_config():
     config_yml = yaml.load(open("config.yml"))
     config["project_name"] = config_yml["project"]["name"]
     config["data_dir"] = config_yml["project"]["data_directory"]
+    config["export_dir"] = config_yml["project"]["export_directory"]
+    config["export"] = config_yml["export"]
 
     if not os.path.exists(config["data_dir"]):
         os.makedirs(config["data_dir"])
     
     datasets = {}
-    datasets["mobygames"] = { "api_key": config_yml["datasets"]["mobygames"]["api_key"] }
-    datasets["giantbomb"] = { "api_key": config_yml["datasets"]["giantbomb"]["api_key"] }
+    datasets["mobygames"] = { 
+        "api_key": config_yml["datasets"]["mobygames"]["api_key"]
+    }
+    datasets["giantbomb"] = { 
+        "api_key": config_yml["datasets"]["giantbomb"]["api_key"]
+    }
 
     return config, datasets
 

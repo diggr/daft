@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name="daft",
     version="0.1",
-    py_modules=["daft"],
+    packages=["daft"],
     install_requires=[
         "Click", 
         "requests", 
@@ -11,6 +11,6 @@ setup(
         "PyYAML"],
     entry_points="""
         [console_scripts]
-        daft=daft:daft_tool
+        daft=daft_tool:daft_tool
     """
 )
