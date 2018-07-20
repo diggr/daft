@@ -8,11 +8,10 @@ from .utils import timeout
 
 
 URL = "https://www.giantbomb.com/api/games/?api_key={api_key}&format=json&offset={offset}"
-
 OFFSET_STEP = 100
 TIMEOUT = 1
-
 HEADERS = {'User-agent': 'daft fetcher'}
+
 
 class GiantbombFetcher(object):
     """
@@ -85,7 +84,7 @@ class GiantbombFetcher(object):
 
     def fetch(self):
         """
-        Fetches all mobygames datasets and write the file />data_dir>/mobygames.zip
+        Fetches all mobygames datasets and write the file /<data_dir>/ginatbomb.zip
         """          
         with zipfile.ZipFile(self.filepath, "w", zipfile.ZIP_DEFLATED) as zf:
 

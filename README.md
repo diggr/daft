@@ -7,6 +7,7 @@ Supported sources:
 - Mobygames
 - Giantbomb
 - Mediaart DB
+- GameFAQs
 
 ## installation
 
