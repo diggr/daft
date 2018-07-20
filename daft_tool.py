@@ -12,6 +12,9 @@ daft <source> --fetch
 # update dataset (if available)
 daft <source> --update
 
+# export standardized datasets
+daft --export
+
 """
 
 import click

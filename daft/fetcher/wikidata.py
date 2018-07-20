@@ -1,3 +1,8 @@
+"""
+Not needed for now.
+Maybe continue later.
+"""
+
 import SPARQLWrapper
 
 ALL_GAMES_QUERY = """

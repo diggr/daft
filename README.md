@@ -90,6 +90,6 @@ The reader class returns game entries in the dataset with the following informat
 * "id"
 * "title"
 * "alt_titles"
-* "platforms"
+* "platforms": standardized platform names
 * "raw": the complete dataset as a json dict
 

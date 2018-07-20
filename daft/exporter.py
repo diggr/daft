@@ -24,7 +24,7 @@ def export_datasets():
         out_file = os.path.join(config["export_dir"], "{}.json".format(dataset_name))
         json.dump(export_dataset, open(out_file, "w"), indent=4)
 
-        prov = Provenance(out_file)
+        prov = Provenance(out_file, overwrite=True)
         prov.add(
             agent=PROV_AGENT, 
             activity="export_std_dataset",

@@ -2,6 +2,7 @@ import os
 import yaml
 from .mediaartdb import MediaartData
 from .mobygames import MobygamesData
+from .gamefaqs import GamefaqsData
 
 def load_config_file(directory):
     config_filepath = os.path.join(directory, "config.yml")
@@ -18,3 +19,5 @@ def get_dataset(daft_dir, dataset_name):
         return MobygamesData(os.path.join(data_dir, "mobygames.zip"))
     if dataset_name == "mediaartdb":
         return MediaartData(os.path.join(data_dir, "ma_master_u8.csv"))
+    if dataset_name == "gamefaqs":
+        return GamefaqsData(os.path.join(data_dir, "gamefaqs.json"))

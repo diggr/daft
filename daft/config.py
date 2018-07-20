@@ -1,3 +1,13 @@
+"""
+Handles daft configuration
+
+initialize() creates a config.yml template in the current directory
+
+load_config() loads configuration file
+
+"""
+
+
 import yaml
 import os
 
@@ -13,6 +23,7 @@ datasets:
     api_key: ""
   giantbomb:
     api_key: ""
+export:
 """
 
 def initialize():
@@ -28,7 +39,7 @@ def initialize():
 
 def load_config():
     """
-    Reads config yml; returns config options :config: and dataset config :datsets:
+    Reads config yml; returns config options :config: and dataset config :datasets:
     """
     if not os.path.exists("config.yml"):
         raise IOError("config.yml does not exits. Initialize it with 'daft init' ")
