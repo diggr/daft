@@ -1,15 +1,16 @@
 import zipfile
 import json
 import pandas as pd
-from ..utils.platform_mapper import PlatformMapper
+import diggrtoolbox as dt
+#from ..utils.platform_mapper import PlatformMapper
 
-PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/mediaartdb.csv"
+#PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/mediaartdb.csv"
 
 
 class MediaartData(object):
 
     def __init__(self, filepath):
-        self._pm = PlatformMapper(PM_FILE, sep=";")
+        self._pm = dt.PlatformMapper("mediaartdb")
 
         self._filepath = filepath
         df = pd.read_csv(filepath, sep="\t")

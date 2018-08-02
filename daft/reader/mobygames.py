@@ -1,14 +1,16 @@
-import zipfile
 import json
-from ..utils.platform_mapper import PlatformMapper
+#from ..utils.platform_mapper import PlatformMapper
+import diggrtoolbox as dt
 
-PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/mobygames.csv"
+#PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/mobygames.csv"
 
 class MobygamesData(object):
 
     def __init__(self, filepath):
         self._filepath = filepath
-        self._pm = PlatformMapper(PM_FILE, sep=";")
+
+        self._pm =  dt.PlatformMapper("mobygames")
+        self.zipfile = dt.ZipListAccess(filepath)
 
     def _get_dataset(self, raw):
         id_ = raw["game_id"]
@@ -29,23 +31,16 @@ class MobygamesData(object):
         """
         Returns mobygames dataset with id :id_:
         """
-        with zipfile.ZipFile(self._filepath) as zf:
-            filename = "{}.json".format(id_)
-            with zf.open(filename) as f:
-                data_string = f.read().decode("utf-8")
-                data = json.loads(data_string)
-                return self._get_dataset(data)
+        filename = "{}.json".format(id_)
+        data = self.zipfile[filename]
+        return self._get_dataset(data)
 
     def __iter__(self):
         """
         Iterator over mobygames dataset
         """
-        with zipfile.ZipFile(self._filepath) as zf:
-            for filename in zf.namelist():
-                with zf.open(filename) as f:
-                    data_string = f.read().decode("utf-8")
-                    data = json.loads(data_string)
-                    yield self._get_dataset(data)
+        for data in self.zipfile:
+            yield self._get_dataset(data)
 
     def source_file(self):
         return self._filepath

@@ -1,14 +1,12 @@
 import zipfile
 import json
-from ..utils.platform_mapper import PlatformMapper
-
-PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/gamefaqs.csv"
+import diggrtoolbox as dt
 
 class GamefaqsData(object):
 
     def __init__(self, filepath):
         self._filepath = filepath
-        self._pm = PlatformMapper(PM_FILE, sep=";")
+        self._pm = dt.PlatformMapper("gamefaqs")
         data = json.load(open(filepath))
         self._dict = { str(x["_id"]).replace("/","__"): x for x in data }
 
