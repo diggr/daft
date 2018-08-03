@@ -2,10 +2,6 @@ import zipfile
 import json
 import pandas as pd
 import diggrtoolbox as dt
-#from ..utils.platform_mapper import PlatformMapper
-
-#PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/mediaartdb.csv"
-
 
 class MediaartData(object):
 

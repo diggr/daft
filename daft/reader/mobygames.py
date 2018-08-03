@@ -1,8 +1,5 @@
 import json
-#from ..utils.platform_mapper import PlatformMapper
 import diggrtoolbox as dt
-
-#PM_FILE = "/home/pmuehleder/data/game_metadata/platform_mapping/mobygames.csv"
 
 class MobygamesData(object):
 
