@@ -3,14 +3,16 @@ from setuptools import setup
 setup(
     name="daft",
     version="0.1",
-    packages=["daft"],
+    packages=["daft", "daft.fetcher", "daft.reader"],
     install_requires=[
+        "SPARQLWrapper",
         "Click", 
         "requests", 
-        "pit", 
+        "provit", 
+        "pandas",
         "PyYAML"],
     entry_points="""
         [console_scripts]
-        daft=daft_tool:daft_tool
+        daft=daft.tool:cli
     """
 )

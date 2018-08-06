@@ -19,10 +19,10 @@ daft --export
 
 import click
 
-from daft.config import initialize, load_config
-from daft.fetcher.mobygames import MobygamesFetcher
-from daft.fetcher.giantbomb import GiantbombFetcher
-from daft.exporter import export_datasets
+from .config import initialize, load_config
+from .fetcher.mobygames import MobygamesFetcher
+from .fetcher.giantbomb import GiantbombFetcher
+from .exporter import export_datasets
 
 @click.command()
 @click.argument("source", required=False)
@@ -30,7 +30,7 @@ from daft.exporter import export_datasets
 @click.option("--export", "-e", is_flag=True, help="Export standardized datasets")
 @click.option("--fetch", "-f", is_flag=True, help="Fetch full dataset from source")
 @click.option("--update", "-u", is_flag=True, help="Fetch update from data source (if available)")
-def daft_tool(source, export, fetch, update, init):
+def cli(source, export, fetch, update, init):
 
     config, datasets = load_config()
 
