@@ -1,20 +1,11 @@
+#!?usr/bin/env python3
 """
-daft - video game metadata fetcher command line tool
+daft -  video game metadata fetcher command line tool
 
-use:
-
-# create config.yml
-daft --init
-
-# fetch full dataset
-daft <source> --fetch
-
-# update dataset (if available)
-daft <source> --update
-
-# export standardized datasets
-daft --export
-
+Authors: P.Mühleder <muehleder@ub.uni-leipzig.de>,
+         F. Rämisch <raemisch@ub.uni-leipzig.de>
+Copyright: Universitätsbibliothek Leipzig, 2018
+License: GPLv3
 """
 
 import click
@@ -24,33 +15,74 @@ from .fetcher.mobygames import MobygamesFetcher
 from .fetcher.giantbomb import GiantbombFetcher
 from .exporter import export_datasets
 
-@click.command()
-@click.argument("source", required=False)
-@click.option("--init", "-i", is_flag=True, help="Create config.yml template")
-@click.option("--export", "-e", is_flag=True, help="Export standardized datasets")
-@click.option("--fetch", "-f", is_flag=True, help="Fetch full dataset from source")
-@click.option("--update", "-u", is_flag=True, help="Fetch update from data source (if available)")
-def cli(source, export, fetch, update, init):
+KNOWN_FETCH_SOURCES = ['mobygames', 'giantbomb']
+KNOWN_UPDATE_SOURCES = ['giantbomb']
+
+@click.group()
+def cli():
+    """
+    daft -  video game metadata fetcher command line tool
+    """
+
+
+@cli.command()
+@click.argument("source")
+def update(source):
+    """
+    Fetch update from data source (if available)
+    """
+    if source not in KNOWN_UPDATE_SOURCES:
+        print("Source {} unknown.".format(source))
+        exit(1)
+
+    if source == "giantbomb":
+        giantbomb = GiantbombFetcher(data_dir=config["data_dir"], api_key=datasets["giantbomb"]["api_key"])
+        giantbomb.fetch()
+        giantbomb.update()
+
+
+@cli.command()
+@click.argument("source")
+def fetch(source):
+    """
+    Fetch full dataset from source
+    """
+    if source not in KNOWN_FETCH_SOURCES:
+        print("Source {} unknown.".format(source))
+        exit(1)
 
     config, datasets = load_config()
 
-    if init:
-        initialize()
-
-    if export:
-        export_datasets()
-
     if source == "mobygames":
         mobygames = MobygamesFetcher(data_dir=config["data_dir"], api_key=datasets["mobygames"]["api_key"])
-        if fetch:
-            mobygames.fetch()
-    
-    if source == "giantbomb":
+        mobygames.fetch()
+    elif source == "giantbomb":
         giantbomb = GiantbombFetcher(data_dir=config["data_dir"], api_key=datasets["giantbomb"]["api_key"])
-        if fetch:
-            giantbomb.fetch()
-        if update:
-            giantbomb.update()
+        giantbomb.fetch()
 
-    if source == "punk":
-        print("5555")
+@cli.command()
+def init():
+    """
+    Initializes daft by creating a config.yml template.
+    """
+    initialize()
+
+
+@cli.command()
+def export():
+    """
+    Export standardized datasets.
+    """
+    export_datasets()
+
+
+@cli.command()
+def punk():
+    """
+    Daft Punk
+    """
+    print("5555")
+
+
+if __name__ == "__main__":
+    cli()
