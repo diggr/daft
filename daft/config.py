@@ -11,7 +11,7 @@ load_config() loads configuration file
 import yaml
 import os
 
-PROV_AGENT = "daft_0.1"
+PROV_AGENT = "daft_0.2"
 
 CONFIG_TEMPLATE = """
 project:

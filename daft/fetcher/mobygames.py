@@ -3,8 +3,9 @@ import zipfile
 import requests
 import json
 import os
-from pit.prov import Provenance
+from provit import Provenance
 from .utils import timeout
+from ..config import PROV_AGENT
 
 # Mobygames API strings
 SEARCH = "https://api.mobygames.com/v1/games?format=full&api_key={api_key}&title={title}&offset={offset}"
@@ -65,7 +66,7 @@ class MobygamesFetcher:
                     break
                 
         prov = Provenance(self.filepath)
-        prov.add(agent="daft", activity="fetch_mobygames", description="fetches all game datasets from mobygames api")
+        prov.add(agent=[ PROV_AGENT ], activity="fetch_mobygames", description="fetches all full game datasets from mobygames api")
         prov.add_primary_source("mobygames")
         prov.save()
 
