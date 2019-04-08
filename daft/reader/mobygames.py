@@ -10,7 +10,7 @@ class MobygamesData(object):
         self.zipfile = dt.ZipListAccess(filepath)
 
     def all_ids(self):
-        files = self.zipfile.files()
+        files = self.zipfile.z.namelist()
         return [ f.replace(".json","") for f in files ]
 
     def _get_dataset(self, raw):

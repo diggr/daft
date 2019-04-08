@@ -66,7 +66,7 @@ class MobygamesFetcher:
                     break
                 
         prov = Provenance(self.filepath)
-        prov.add(agent=[ PROV_AGENT ], activity="fetch_mobygames", description="fetches all full game datasets from mobygames api")
+        prov.add(agents=[ PROV_AGENT ], activity="fetch_mobygames", description="Full game datasets from mobygames api")
         prov.add_primary_source("mobygames")
         prov.save()
 
