@@ -3,10 +3,11 @@ from flask_restful import Resource, Api
 
 from daft.dataset_access import load_datasets
 
+DAFT_PORT = 6661
+
 app = Flask(__name__)
 daft = Api(app)
 
-#get dataset access
 datasets = load_datasets()
 
 class Entry(Resource):
@@ -31,12 +32,23 @@ class Dataset(Resource):
 
         return { 
             "dataset": dataset_name,
-            "entryCount": len(ids)
+            "entryCount": len(ids),
+            "ids": ids
+        }
+
+class MobygamesBySlug(Resource):
+    def get(self, slug):
+        data = datasets['mobygames'].get_item_by_slug(slug)
+
+        return { 
+            "dataset": "mobygames",
+            "entry": data
         }
 
 daft.add_resource(Dataset, '/<string:dataset_name>')
 daft.add_resource(Entry, '/<string:dataset_name>/<id_>')
+daft.add_resource(MobygamesBySlug, '/mobygames/slug/<string:slug>')
 
 def start_api():
     print("starting api")
-    app.run(debug=True)
+    app.run(debug=True, port=DAFT_PORT)
