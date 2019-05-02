@@ -4,7 +4,7 @@
 #
 #    make update-requirements
 #
--e git+git@github.com:diggr/diggrtoolbox.git@44cd4d1dc41161c6c5b8d2ae3388f578115e6b01#egg=diggrtoolbox
+-e git+git://github.com/diggr/diggrtoolbox.git@44cd4d1dc41161c6c5b8d2ae3388f578115e6b01#egg=diggrtoolbox
 aniso8601==6.0.0          # via flask-restful
 certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
