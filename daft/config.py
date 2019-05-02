@@ -45,7 +45,7 @@ def load_config():
         raise IOError("config.yml does not exits. Initialize it with 'daft init' ")
 
     config = {}
-    config_yml = yaml.load(open("config.yml"))
+    config_yml = yaml.safe_load(open("config.yml"))
     config["project_name"] = config_yml["project"]["name"]
     config["data_dir"] = config_yml["project"]["data_directory"]
     config["export_dir"] = config_yml["project"]["export_directory"]

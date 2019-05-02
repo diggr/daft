@@ -6,7 +6,7 @@ from .gamefaqs import GamefaqsData
 
 def load_config_file(directory):
     config_filepath = os.path.join(directory, "config.yml")
-    config = yaml.load(open(config_filepath))
+    config = yaml.safe_load(open(config_filepath))
     return config
 
 def get_dataset(daft_dir, dataset_name):
