@@ -14,6 +14,7 @@ from .config import initialize, load_config
 from .fetcher.mobygames import MobygamesFetcher
 from .fetcher.giantbomb import GiantbombFetcher
 from .exporter import export_datasets
+from .api import start_api
 
 KNOWN_FETCH_SOURCES = ['mobygames', 'giantbomb']
 KNOWN_UPDATE_SOURCES = ['giantbomb']
@@ -83,6 +84,9 @@ def punk():
     """
     print("5555")
 
+@cli.command()
+def api():
+    start_api()
 
 if __name__ == "__main__":
     cli()

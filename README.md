@@ -4,43 +4,46 @@ Fetch tool for video game meta data from various sources.
 Writes fetched data into a zip archive.
 
 Supported sources:
-- Mobygames
-- Giantbomb
-- Mediaart DB
-- GameFAQs
+- [Mobygames](https://mobygames.com)
+- [Giantbomb](https://giantbomb.com)
+- [Mediaart DB](https://mediaarts-db.bunka.go.jp/gm)
+- [GameFAQs](https://gamefaqs.gamespot.com)
 
-## installation
+## Installation
 
-```
+This application provides a setup.py which helps installing this application.
+To install run:
+
+```bash
 pip install -e .
 ```
 
-## usage
+## Usage
 
-```
+```bash
 # create config.yml
 daft --init
 
 # fetch full dataset
-daft <source> --fetch
+daft SOURCE --fetch
 
 # update dataset (if available)
-daft <source> --update
+daft SOURCE --update
 
 # export standardized dataset
-daft --exoport
+daft --export
 ```
 
 ## config file
 
 The config.yml need to be in the project root directory and looks like this:
 
-```
+```yaml
 
 project:
   name: "test"
-  data_directory: "/home/pmuehleder/data/game_metadata/sources"
-  export_directory: "/home/pmuehleder/data/game_metadata/daft_export"
+  data_directory: "../../game_metadata/sources"
+  export_directory: "../../game_metadata/daft_export"
 
 datasets:
   mobygames:
@@ -71,7 +74,7 @@ A factory method is also provided.
 
 Example:
 
-```
+```python
 from daft.reader import get_dataset
 
 # load mobygames dataset
@@ -79,7 +82,7 @@ mobygames = get_dataset("path_to_daft_directory", "mobygames")
 
 # iterate through mobygames dataset
 for game in mobygames:
-    print(game["title])
+    print(game["title"])
     break
 
 # get specific mobygames entry via id 

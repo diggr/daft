@@ -1,6 +1,6 @@
 import os
 import json
-from pit.prov import Provenance
+from provit import Provenance
 from .reader import get_dataset
 from .config import load_config, PROV_AGENT
 

@@ -1,6 +1,7 @@
 import zipfile
 import json
 import diggrtoolbox as dt
+from dateutil.parser import parse
 
 class GamefaqsData(object):
 
@@ -11,6 +12,9 @@ class GamefaqsData(object):
         self._dict = { str(x["_id"]).replace("/","__"): x for x in data }
 
 
+    def all_ids(self):
+        return list(self._dict.keys())
+
     def _get_dataset(self, raw):
         id_ = raw["_id"].replace("/","__")
         title = raw["data"]["title"]
@@ -19,12 +23,24 @@ class GamefaqsData(object):
             alt_titles.remove(title)
         platforms = [ self._pm.std(raw["platform"]) ]
 
+        years = []
+        for release  in raw["data"]["releases"]:
+            if release["release_date"]:
+                try:
+                    years.append( parse(release["release_date"], fuzzy=True).year )
+                except:
+                    continue
+
+        genres = [ raw["data"]["genre"] ]
+
         dataset = {
             "id": id_,
             "raw": raw,
             "title": title,
             "alt_titles": alt_titles,
-            "platforms": platforms
+            "platforms": platforms,
+            "years": list(set(years)),
+            "genres": genres
         }
         return dataset
 
@@ -32,7 +48,7 @@ class GamefaqsData(object):
         """
         Returns mobygames dataset with id :id_:
         """
-        return self._get_dataset(self._dict[_id])
+        return self._get_dataset(self._dict[id_])
 
     def __iter__(self):
         """

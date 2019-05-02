@@ -2,7 +2,7 @@ import json
 import requests
 import os
 import zipfile
-from pit.prov import Provenance
+from provit import Provenance
 
 from .utils import timeout
 

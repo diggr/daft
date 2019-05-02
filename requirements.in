@@ -1,0 +1,4 @@
+requests==2.20.1
+click==7.0
+provit==1.0.1
+PyYAML==5.1

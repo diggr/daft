@@ -13,18 +13,37 @@ class MediaartData(object):
         data = json.loads(df.to_json(orient="records"))
         self._dict = { str(x["正式ID"]): x for x in data }
 
+    def all_ids(self):
+        return list(self._dict.keys())
+
     def _get_dataset(self, raw):
         id_ = raw["正式ID"]
         title = raw["ゲームタイトル"]
         alt_titles = list(set([ raw["英語表記"], raw["JM（ローマ字）"] ]))
-        platforms = [ self._pm.std(raw["プラットフォーム"])]        
+        platforms = [ self._pm.std(raw["プラットフォーム"])]      
+
+        try:
+            years = [ int(raw["発売年"]) ]
+        except:
+            years = []
+
+        genres = [
+            raw["ジャンル1"],
+            raw["ジャンル2"],
+            raw["ジャンル3"],
+            raw["ジャンル4"],
+            raw["ジャンル5"]
+        ]
+        
 
         dataset = {
             "id": id_,
             "raw": raw,
             "title": title,
             "alt_titles": alt_titles,
-            "platforms": platforms
+            "platforms": platforms,
+            "years": years,
+            "genres": [ g for g in genres if g and g != "-" ]
         }
         return dataset
 
