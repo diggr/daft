@@ -3,5 +3,5 @@ click==7.0
 provit==1.0.1
 PyYAML==5.1
 pandas==0.24.2
--e git+git@github.com:diggr/diggrtoolbox.git@44cd4d1dc41161c6c5b8d2ae3388f578115e6b01#egg=diggrtoolbox
+-e git+git://github.com/diggr/diggrtoolbox.git@44cd4d1dc41161c6c5b8d2ae3388f578115e6b01#egg=diggrtoolbox
 Flask-RESTful==0.3.7
