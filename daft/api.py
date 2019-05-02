@@ -49,6 +49,10 @@ daft.add_resource(Dataset, '/<string:dataset_name>')
 daft.add_resource(Entry, '/<string:dataset_name>/<id_>')
 daft.add_resource(MobygamesBySlug, '/mobygames/slug/<string:slug>')
 
-def start_api():
+def start_api(host, port, debug):
     print("starting api")
-    app.run(debug=True, port=DAFT_PORT)
+    app.run(
+        host=host,
+        port=port,
+        debug=debug
+    )
