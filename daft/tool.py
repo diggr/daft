@@ -85,8 +85,11 @@ def punk():
     print("5555")
 
 @cli.command()
-def api():
-    start_api()
+@click.option("--host", default="127.0.0.1", show_default=True)
+@click.option("--port", default=6661, show_default=True)
+@click.option("--debug/--no-debug", default=True)
+def api(host, port, debug):
+    start_api(host, port, debug)
 
 if __name__ == "__main__":
     cli()
