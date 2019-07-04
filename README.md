@@ -47,9 +47,9 @@ project:
 
 datasets:
   mobygames:
-    api_key: "***REMOVED***"
+    api_key: "<YOUR_API_KEY_HERE>"
   giantbomb:
-    api_key: "***REMOVED***"
+    api_key: "<YOUR_API_KEY_HERE"
 
 export:
   mobygames:
