@@ -12,7 +12,6 @@ import click
 
 from .config import initialize, load_config
 from .fetcher.mobygames import MobygamesFetcher
-from .fetcher.giantbomb import GiantbombFetcher
 from .exporter import export_datasets
 from .api import start_api
 
@@ -25,23 +24,6 @@ def cli():
     daft -  video game metadata fetcher command line tool
     """
 
-
-@cli.command()
-@click.argument("source")
-def update(source):
-    """
-    Fetch update from data source (if available)
-    """
-    if source not in KNOWN_UPDATE_SOURCES:
-        print("Source {} unknown.".format(source))
-        exit(1)
-
-    if source == "giantbomb":
-        giantbomb = GiantbombFetcher(data_dir=config["data_dir"], api_key=datasets["giantbomb"]["api_key"])
-        giantbomb.fetch()
-        giantbomb.update()
-
-
 @cli.command()
 @click.argument("source")
 def fetch(source):
@@ -52,14 +34,14 @@ def fetch(source):
         print("Source {} unknown.".format(source))
         exit(1)
 
-    config, datasets = load_config()
+    config = load_config()
 
     if source == "mobygames":
-        mobygames = MobygamesFetcher(data_dir=config["data_dir"], api_key=datasets["mobygames"]["api_key"])
+        mobygames = MobygamesFetcher(
+            data_dir=config["project"]["data_dir"], 
+            api_key=config["sources"]["mobygames"]["api_key"])
         mobygames.fetch()
-    elif source == "giantbomb":
-        giantbomb = GiantbombFetcher(data_dir=config["data_dir"], api_key=datasets["giantbomb"]["api_key"])
-        giantbomb.fetch()
+
 
 @cli.command()
 def init():

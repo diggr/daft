@@ -3,7 +3,7 @@ from os.path import abspath, dirname, join
 
 setup(
     name="daft",
-    version="0.1",
+    version="1.0.0",
     packages=["daft", "daft.fetcher", "daft.reader"],
     entry_points="""
         [console_scripts]
