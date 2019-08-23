@@ -11,19 +11,27 @@ load_config() loads configuration file
 import yaml
 import os
 
-PROV_AGENT = "daft_0.2"
+PROV_AGENT = "daft_1.0.0"
 
 CONFIG_TEMPLATE = """
 project:
   name: ""
-  data_directory: ""
+  data_dir: ""
+  export_dir: ""
 
-datasets:
+sources:
   mobygames:
     api_key: ""
-  giantbomb:
-    api_key: ""
-export:
+
+api: #add datasets to api
+#- mobygames
+
+export: #define dataset exports
+#  mobygames:
+#      - title
+#      - alt_titles
+#      - platforms
+#      - genres
 """
 
 def initialize():
@@ -37,6 +45,7 @@ def initialize():
     with open("config.yml", "w") as f:
         f.write(CONFIG_TEMPLATE)
 
+
 def load_config():
     """
     Reads config yml; returns config options :config: and dataset config :datasets:
@@ -45,22 +54,12 @@ def load_config():
         raise IOError("config.yml does not exits. Initialize it with 'daft init' ")
 
     config = {}
-    config_yml = yaml.safe_load(open("config.yml"))
-    config["project_name"] = config_yml["project"]["name"]
-    config["data_dir"] = config_yml["project"]["data_directory"]
-    config["export_dir"] = config_yml["project"]["export_directory"]
-    config["export"] = config_yml["export"]
+    config = yaml.safe_load(open("config.yml"))
 
-    if not os.path.exists(config["data_dir"]):
-        os.makedirs(config["data_dir"])
-    
-    datasets = {}
-    datasets["mobygames"] = { 
-        "api_key": config_yml["datasets"]["mobygames"]["api_key"]
-    }
-    datasets["giantbomb"] = { 
-        "api_key": config_yml["datasets"]["giantbomb"]["api_key"]
-    }
+    if not os.path.exists(config["project"]["data_dir"]):
+        os.makedirs(config["project"]["data_dir"])
+    if not os.path.exists(config["project"]["export_dir"]):
+        os.makedirs(config["project"]["export_dir"])
 
-    return config, datasets
+    return config
 

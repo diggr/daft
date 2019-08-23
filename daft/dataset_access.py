@@ -1,13 +1,18 @@
 from .reader import get_dataset
+from .config import load_config
 
 class DatasetAccess(object):
 
     def __init__(self):
-        self._ds = {
-            "mobygames": get_dataset(".","mobygames"),
-            "gamefaqs": get_dataset(".", "gamefaqs"),
-            "mediaartdb": get_dataset(".", "mediaartdb")
-        }
+
+        config = load_config()
+
+        self._ds = {}
+
+        if config["api"]:
+            for dataset in config["api"]:
+                self._ds[dataset] = get_dataset(".", dataset)
+
 
     def __getitem__(self, item):
         return self._ds[item]

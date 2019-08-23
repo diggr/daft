@@ -8,7 +8,7 @@ def export_datasets():
     """
     Exports standardized datasets with fields spezified in the config.yml
     """
-    config, datasets = load_config()
+    config = load_config()
 
     for dataset_name, fields in config["export"].items():
         export_dataset = {}
@@ -21,12 +21,12 @@ def export_datasets():
             row["id"] = entry["id"]
             export_dataset[entry["id"]] = row
 
-        out_file = os.path.join(config["export_dir"], "{}.json".format(dataset_name))
+        out_file = os.path.join(config["project"]["export_dir"], "{}.json".format(dataset_name))
         json.dump(export_dataset, open(out_file, "w"), indent=4)
 
         prov = Provenance(out_file, overwrite=True)
         prov.add(
-            agent=PROV_AGENT, 
+            agents=[ PROV_AGENT ], 
             activity="export_std_dataset",
             description="export standardized fields <{}> from dataset <{}>".format(", ".join(fields), dataset_name)
         )

@@ -8,7 +8,7 @@ DAFT_PORT = 6661
 app = Flask(__name__)
 daft = Api(app)
 
-datasets = load_datasets()
+datasets = {}
 
 class Entry(Resource):
     def get(self, dataset_name, id_):
@@ -50,7 +50,11 @@ daft.add_resource(Entry, '/<string:dataset_name>/<id_>')
 daft.add_resource(MobygamesBySlug, '/mobygames/slug/<string:slug>')
 
 def start_api(host, port, debug):
-    print("starting api")
+    print("loading datasets ...")
+    global datasets 
+    datasets = load_datasets()
+
+    print("starting api ...")
     app.run(
         host=host,
         port=port,

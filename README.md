@@ -5,7 +5,6 @@ Writes fetched data into a zip archive.
 
 Supported sources:
 - [Mobygames](https://mobygames.com)
-- [Giantbomb](https://giantbomb.com)
 - [Mediaart DB](https://mediaarts-db.bunka.go.jp/gm)
 - [GameFAQs](https://gamefaqs.gamespot.com)
 
@@ -32,6 +31,10 @@ daft SOURCE --update
 
 # export standardized dataset
 daft --export
+
+# start daft api
+daft api
+
 ```
 
 ## config file
@@ -42,14 +45,15 @@ The config.yml need to be in the project root directory and looks like this:
 
 project:
   name: "test"
-  data_directory: "../../game_metadata/sources"
-  export_directory: "../../game_metadata/daft_export"
+  data_dir: "../../game_metadata/sources"
+  export_dir: "../../game_metadata/daft_export"
 
-datasets:
+sources:
   mobygames:
     api_key: "<YOUR_API_KEY_HERE>"
-  giantbomb:
-    api_key: "<YOUR_API_KEY_HERE"
+
+api:
+  - mobygames
 
 export:
   mobygames:
@@ -62,10 +66,11 @@ export:
       - platforms
 ```
 
-* data_directory: directory for the raw source datafiles (e.g. generated via the fetch command)
-* export_direcotry: directory for the stadardized dataset exort
-* datasets: configuration for the fetchers (api-keys etc.)
+* data_dir: directory for the raw source datafiles (e.g. generated via the fetch command)
+* export_dir: directory for the stadardized dataset exort
+* sources: configuration for the fetchers (api-keys etc.)
 * export: configuration for the standardized dataset export (fields must be spezified in the respective dataset reader classes)
+* api: list of datasets available through the api
 
 ## Reader classes
 

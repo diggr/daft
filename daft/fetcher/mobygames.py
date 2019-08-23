@@ -47,6 +47,7 @@ class MobygamesFetcher:
         """
         Fetches all mobygames datasets and write the file />data_dir>/mobygames.zip
         """          
+        print("fetch mobygames dataset ...")
         with zipfile.ZipFile(self.filepath, "w", zipfile.ZIP_DEFLATED) as zf:
 
             offset = 0          
@@ -60,7 +61,7 @@ class MobygamesFetcher:
 
                 offset += OFFSET_STEP
                 result_number = len(games)
-                print(offset)
+                print("\t current offset: {}".format(offset))
 
                 if result_number == 0:
                     break
