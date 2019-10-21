@@ -1,7 +1,11 @@
 # daft - data fetch tool
 
+![Python 3]( https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7-blue.svg)
+
 Fetch tool for video game meta data from various sources.
 Writes fetched data into a zip archive.
+
+![daft logo](assets/daft_header.png?raw=true "daft")
 
 Supported sources:
 - [Mobygames](https://mobygames.com)
