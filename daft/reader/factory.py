@@ -1,7 +1,7 @@
 import os
 import yaml
 from .mediaartdb import MediaartData
-from .mobygames import MobygamesData
+from .mobygames import MobygamesData, MobygamesCompany
 from .gamefaqs import GamefaqsData
 
 def load_config_file(directory):
@@ -11,6 +11,8 @@ def load_config_file(directory):
         return config
     else:
         return None
+
+      
 
 def get_dataset(daft_dir, dataset_name):
 
@@ -25,3 +27,8 @@ def get_dataset(daft_dir, dataset_name):
             return MediaartData(os.path.join(data_dir, "ma_master_u8.csv"))
         if dataset_name == "gamefaqs":
             return GamefaqsData(os.path.join(data_dir, "gamefaqs.json"))
+
+        if dataset_name == "mobygames-companies":
+            slug_mapping = os.path.join(data_dir, "mobygames_companies_id_to_slug.json")
+            company_dataset = os.path.join(data_dir, "mobygames_companies.json")
+            return MobygamesCompany(company_dataset, slug_mapping)

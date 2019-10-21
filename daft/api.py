@@ -45,9 +45,43 @@ class MobygamesBySlug(Resource):
             "entry": data
         }
 
+class MobygamesGameCompanies(Resource):
+    def get(self, id_):
+        data = datasets['mobygames'].get_companies(id_)
+
+        return { 
+            "dataset": "mobygames",
+            "entry": data
+        }        
+
+class MobygamesCompany(Resource):
+    def get(self, id_):
+        data =  datasets['mobygames-companies'][id_]
+        return { 
+            "dataset": "mobygames-companies",
+            "entry": data
+        }              
+
+class MobygamesCompanies(Resource):
+    def get(self):
+        data = datasets['mobygames-companies'].id_2_slug
+        return { 
+            "dataset": "mobygames-companies",
+            "entry": data
+        }      
+
+class ProvenanceInformation(Resource):
+    def get(self, dataset_name):
+        data = datasets[dataset_name].prov()
+        return data
+
 daft.add_resource(Dataset, '/<string:dataset_name>')
 daft.add_resource(Entry, '/<string:dataset_name>/<id_>')
 daft.add_resource(MobygamesBySlug, '/mobygames/slug/<string:slug>')
+daft.add_resource(MobygamesCompanies, '/mobygames/companies')
+daft.add_resource(MobygamesCompany, '/mobygames/company/<string:id_>')
+daft.add_resource(MobygamesGameCompanies, '/mobygames/<string:id_>/companies')
+daft.add_resource(ProvenanceInformation, '/<string:dataset_name>/prov')
 
 def start_api(host, port, debug):
     print("loading datasets ...")

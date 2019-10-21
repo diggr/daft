@@ -2,6 +2,7 @@ import zipfile
 import json
 import diggrtoolbox as dt
 from dateutil.parser import parse
+from .utils import get_prov
 
 class GamefaqsData(object):
 
@@ -59,4 +60,6 @@ class GamefaqsData(object):
 
     def source_file(self):
         return self._filepath
-        
+
+    def prov(self):
+        return get_prov(self._filepath)

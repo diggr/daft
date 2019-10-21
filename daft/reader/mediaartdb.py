@@ -2,6 +2,7 @@ import zipfile
 import json
 import pandas as pd
 import diggrtoolbox as dt
+from .utils import get_prov
 
 class MediaartData(object):
 
@@ -62,4 +63,7 @@ class MediaartData(object):
 
     def source_file(self):
         return self._filepath
+
+    def prov(self):
+        return get_prov(self._filepath)
         

@@ -1,5 +1,7 @@
 import json
+import os
 import diggrtoolbox as dt
+from .utils import get_prov
 
 class MobygamesData(object):
 
@@ -44,6 +46,9 @@ class MobygamesData(object):
         }
         return dataset
 
+    def _get_data(self, id):
+        pass
+
     def __getitem__(self, id_):
         """
         Returns mobygames dataset with id :id_:
@@ -65,4 +70,42 @@ class MobygamesData(object):
 
     def get_item_by_slug(self, slug):
         return self[self.slug_dict[slug]]
-        
+
+    def get_companies(self, game_id):
+        companies = []
+        raw = self[game_id]["raw"]
+        for platform in raw["platforms"]:
+            for release in platform["releases"]:
+                for company in release["companies"]:
+                    company["release_countries"] = release["countries"]
+                    company["platform"] = self._pm.std(platform["platform_name"])
+                    companies.append(company)
+        return companies
+
+    def prov(self):
+        return get_prov(self._filepath)
+
+
+
+
+class MobygamesCompany(object):
+
+    def __init__(self, company_dataset_filepath, slug_mapping_filepath):
+
+        self._filepath = company_dataset_filepath
+
+        with open(company_dataset_filepath) as f:
+            self.companies = json.load(f)
+
+        with open(slug_mapping_filepath) as f:
+            data = json.load(f)
+            self.id_2_slug = { x["company_id"]: x["slug"] for x in data }
+    
+    def id2slug(self):
+        pass
+
+    def __getitem__(self, id_):
+        return self.companies[id_]
+
+    def prov(self):
+        return get_prov(self._filepath)    
