@@ -4,45 +4,35 @@
 #
 #    make update-requirements
 #
--e git+git://github.com/diggr/diggrtoolbox.git@44cd4d1dc41161c6c5b8d2ae3388f578115e6b01#egg=diggrtoolbox
--e git+git://github.com/missinglinks/zip_archive@ad52e2e3ec94f10cf5689998c62031636bd4b804#egg=zip_archive
-aniso8601==7.0.0          # via flask-restful
-atomicwrites==1.3.0       # via pytest
-attrs==19.1.0             # via pytest
-certifi==2019.3.9         # via requests
+-e git+https://github.com/diggr/diggrtoolbox.git@b5589d8f5ccab6b95dae15f627ba5419c261b9e6#egg=diggrtoolbox
+aniso8601==8.0.0          # via flask-restful
+certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
 click==7.0
-flask-cors==3.0.7         # via provit
+flask-cors==3.0.8         # via provit
 flask-restful==0.3.7
-flask==1.0.2              # via flask-cors, flask-restful, provit
+flask==1.0.3              # via flask-cors, flask-restful, provit
 idna==2.7                 # via requests
-importlib-metadata==0.18  # via pluggy
 isodate==0.6.0            # via provit, rdflib
 itsdangerous==1.1.0       # via flask, provit
 jinja2==2.10.1            # via flask, provit
 jsonschema==2.6.0
 markupsafe==1.1.1         # via jinja2, provit
-more-itertools==7.1.0     # via pytest
-numpy==1.16.4             # via pandas
+numpy==1.18.1             # via pandas
 pandas==0.24.2
-pluggy==0.12.0            # via pytest
-provit==1.0.1
-py==1.8.0                 # via pytest
+provit==1.0.2
 pyparsing==2.4.0          # via provit, rdflib
-pytest==4.5.0
-python-dateutil==2.8.0    # via pandas
+python-dateutil==2.8.1    # via pandas
 python_levenshtein==0.12.0
-pytz==2019.1              # via flask-restful, pandas
-pyyaml==5.1
+pytz==2019.3              # via flask-restful, pandas
+pyyaml==5.1.1
 rdflib-jsonld==0.4.0      # via provit
 rdflib==4.2.2             # via provit, rdflib-jsonld
 requests==2.20.1
 roman==3.0
-six==1.12.0               # via flask-cors, flask-restful, isodate, provit, pytest, python-dateutil
-urllib3==1.24.2           # via requests
-wcwidth==0.1.7            # via pytest
-werkzeug==0.15.2          # via flask, provit
-zipp==0.5.2               # via importlib-metadata
+six==1.12.0               # via flask-cors, flask-restful, isodate, provit, python-dateutil
+urllib3==1.24.3           # via requests
+werkzeug==0.15.4          # via flask, provit
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==36.5.0        # via pytest, python-levenshtein
+# setuptools
