@@ -106,3 +106,15 @@ The reader class returns game entries in the dataset with the following informat
 * "platforms": standardized platform names
 * "raw": the complete dataset as a json dict
 
+## Authors
+
+* Peter Mühleder <muehleder@saw-leipzig.de>
+* Florian Rämisch <raemisch@ub.uni-leipzig.de>
+
+## Copyright and License
+
+GNU Affero General Public License
+
+2019, 2020 Universitätsbibliothek Leipzig <info@ub.uni-leipzig.de>
+
+
